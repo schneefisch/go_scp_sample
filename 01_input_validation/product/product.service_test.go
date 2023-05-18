@@ -36,7 +36,7 @@ func Test_handleProducts(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			response := httptest.NewRecorder()
 
-			handleProducts(response, test.args.request)
+			HandleProducts(response, test.args.request)
 
 			if status := response.Code; status != test.wantStatusCode {
 				t.Errorf("Unexpected status-code: got %v, want %v", status, test.wantStatusCode)
@@ -95,7 +95,7 @@ func Test_handleProduct(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			response := httptest.NewRecorder()
-			handleProduct(response, test.args.request)
+			HandleProduct(response, test.args.request)
 
 			if status := response.Code; status != test.wantStatusCode {
 				t.Errorf("Unexpected return status-code; got %v, want %v", status, test.wantStatusCode)

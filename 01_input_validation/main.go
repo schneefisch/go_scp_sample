@@ -1,21 +1,23 @@
 package main
 
 import (
-	"github.com/schneefisch/go_scp_sample/01_input_validation/database"
-	"github.com/schneefisch/go_scp_sample/01_input_validation/product"
+	"github.com/schneefisch/go_scp_sample/app"
+	"github.com/schneefisch/go_scp_sample/database"
 	"log"
 	"net/http"
 )
 
 func main() {
-	// ToDo: Setup in-memory database
-	database.SetupDatabase()
+	// Setup in-memory database
+	err := database.SetupDatabase()
+	if err != nil {
+		log.Fatal("Error setting up the database connection")
+	}
 	defer database.StopDatabase()
 
 	// Setup Routes
-	product.SetupRoutes()
+	app.SetupRoutes()
 
 	// Start Server
-	log.Fatal(http.ListenAndServe(":5000", nil))
-
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }

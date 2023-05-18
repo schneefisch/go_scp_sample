@@ -3,7 +3,7 @@ package product
 import (
 	"context"
 	"fmt"
-	"github.com/schneefisch/go_scp_sample/01_input_validation/database"
+	"github.com/schneefisch/go_scp_sample/database"
 	"log"
 )
 

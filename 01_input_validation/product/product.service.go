@@ -3,21 +3,15 @@ package product
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"strings"
 )
 
-const path = "products"
+func HandleProducts(writer http.ResponseWriter, request *http.Request) {
 
-func SetupRoutes() {
-	productsHandler := http.HandlerFunc(handleProducts)
-	productHandler := http.HandlerFunc(handleProduct)
-	http.Handle(fmt.Sprintf("%s", path), productsHandler)
-	http.Handle(fmt.Sprintf("%s/", path), productHandler)
-}
-
-func handleProducts(writer http.ResponseWriter, request *http.Request) {
+	log.Println("handleProducts")
 
 	switch request.Method {
 	case http.MethodGet:
@@ -27,15 +21,16 @@ func handleProducts(writer http.ResponseWriter, request *http.Request) {
 			writer.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		productsJson, err := json.Marshal(products)
+
+		parsedTemplate, err := template.ParseFiles("template/products.gohtml")
 		if err != nil {
+			log.Println(err)
 			writer.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		_, err = writer.Write(productsJson)
+		err = parsedTemplate.Execute(writer, products)
 		if err != nil {
 			log.Fatal(err)
-			return
 		}
 
 	default:
@@ -44,9 +39,9 @@ func handleProducts(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 
-func handleProduct(writer http.ResponseWriter, request *http.Request) {
+func HandleProduct(writer http.ResponseWriter, request *http.Request) {
 
-	urlPathSegments := strings.Split(request.URL.Path, fmt.Sprintf("%s/", path))
+	urlPathSegments := strings.Split(request.URL.Path, "product/")
 	if len(urlPathSegments[1:]) > 1 {
 		writer.WriteHeader(http.StatusBadRequest)
 		return

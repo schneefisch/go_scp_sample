@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+<header>Our Products</header>
+<main>
+  {{ range $index, $product := . }}
+    <p>{{ $product.ProductName }}</p>
+  {{ end }}
+</main>
+</body>
+</html>
