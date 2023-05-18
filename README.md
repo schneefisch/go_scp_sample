@@ -7,6 +7,8 @@ The intention is to provide some samples how secure coding practices can be impl
 The main practices will be covered (hopefully soon) are
 
 * (Input) Validation
+  * URL Parameter
+  * SQL Injection
 * Output Encoding
 * Authentication and Password Management
 * Session Management
