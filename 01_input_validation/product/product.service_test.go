@@ -86,7 +86,11 @@ func Test_handleProduct(t *testing.T) {
 			},
 		},
 		// todo: add a test with sql-injection
-
+		//{
+		//	name:           "Get product with SQL-Injection",
+		//	args:           args{request: httptest.NewRequest(http.MethodGet, fmt.Sprintf("/products/%s", url.PathEscape("1; DELETE FROM products")), nil)},
+		//	wantStatusCode: http.StatusOK,
+		//},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -108,6 +112,17 @@ func Test_handleProduct(t *testing.T) {
 			}
 			if test.wantProduct != nil && !reflect.DeepEqual(product, *test.wantProduct) {
 				t.Errorf("Unexpected product response;\ngot: %v\nwant: %v", product, *test.wantProduct)
+			}
+
+			// verify that there are still some products left
+			list, err := getProductList()
+			if err != nil {
+				t.Errorf("Got some unexpected error when reading all products; %v", err)
+			}
+			if len(list) < 1 {
+				t.Errorf("No more products in the products-database!")
+			} else {
+				t.Logf("Remaining Products:\n%v", list)
 			}
 		})
 	}

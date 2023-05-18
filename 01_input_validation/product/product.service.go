@@ -59,10 +59,12 @@ func handleProduct(writer http.ResponseWriter, request *http.Request) {
 
 		product, err := getProductById(productId)
 		if err != nil {
+			log.Println(err)
 			writer.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		if product == nil {
+			log.Println(fmt.Sprintf("No product found for id %s", productId))
 			writer.WriteHeader(http.StatusNotFound)
 			return
 		}
