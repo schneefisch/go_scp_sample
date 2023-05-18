@@ -109,7 +109,6 @@ func Test_handleProduct(t *testing.T) {
 			if test.wantProduct != nil && !reflect.DeepEqual(product, *test.wantProduct) {
 				t.Errorf("Unexpected product response;\ngot: %v\nwant: %v", product, *test.wantProduct)
 			}
-
 		})
 	}
 }
