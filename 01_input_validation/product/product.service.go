@@ -2,13 +2,19 @@ package product
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"strings"
 )
+
+const path = "products"
 
 func SetupRoutes() {
 	productsHandler := http.HandlerFunc(handleProducts)
-	http.Handle("products", productsHandler)
+	productHandler := http.HandlerFunc(handleProduct)
+	http.Handle(fmt.Sprintf("%s", path), productsHandler)
+	http.Handle(fmt.Sprintf("%s/", path), productHandler)
 }
 
 func handleProducts(writer http.ResponseWriter, request *http.Request) {
@@ -35,6 +41,43 @@ func handleProducts(writer http.ResponseWriter, request *http.Request) {
 	default:
 		writer.WriteHeader(http.StatusNotImplemented)
 		return
+	}
+
+}
+
+func handleProduct(writer http.ResponseWriter, request *http.Request) {
+
+	urlPathSegments := strings.Split(request.URL.Path, fmt.Sprintf("%s/", path))
+	if len(urlPathSegments[1:]) > 1 {
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	productId := urlPathSegments[len(urlPathSegments)-1]
+
+	switch request.Method {
+	case http.MethodGet:
+
+		product, err := getProductById(productId)
+		if err != nil {
+			writer.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		if product == nil {
+			writer.WriteHeader(http.StatusNotFound)
+			return
+		}
+		productJson, err := json.Marshal(product)
+		if err != nil {
+			writer.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		writer.WriteHeader(http.StatusOK)
+		_, err = writer.Write(productJson)
+		if err != nil {
+			log.Fatal(err)
+		}
+	default:
+		writer.WriteHeader(http.StatusNotImplemented)
 	}
 
 }

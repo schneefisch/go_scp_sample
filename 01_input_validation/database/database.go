@@ -8,15 +8,13 @@ import (
 var DbConn *sql.DB
 
 // SetupDatabase will create a simple in-memory database an pre-fill it with some start-data
-//
-//goland:noinspection SqlNoDataSourceInspection
 func SetupDatabase() error {
 
 	batch := []string{
 		`CREATE TABLE products (productId BIGSERIAL PRIMARY KEY, productName TEXT, price TEXT, quantityOnHand INT);`,
-		`INSERT INTO products (productName, price, quantityOnHand) VALUES ('Edamer', '7.99', 15)`,
-		`INSERT INTO products (productName, price, quantityOnHand) VALUES ('Gouda', '5.99', 22)`,
-		`INSERT INTO products (productName, price, quantityOnHand) VALUES ('Mozzarella', '6.49', 12)`,
+		`INSERT INTO products (productId, productName, price, quantityOnHand) VALUES (0, 'Edamer', '7.99', 15)`,
+		`INSERT INTO products (productId, productName, price, quantityOnHand) VALUES (1, 'Gouda', '5.99', 22)`,
+		`INSERT INTO products (productId, productName, price, quantityOnHand) VALUES (2, 'Mozzarella', '6.49', 12)`,
 	}
 
 	db, err := sql.Open("ramsql", "Products")
