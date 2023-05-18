@@ -17,5 +17,9 @@ func TestMain(m *testing.M) {
 
 	// run tests
 	code := m.Run()
+
+	// cleanup
+	database.StopDatabase()
+
 	os.Exit(code)
 }
