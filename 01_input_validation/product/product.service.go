@@ -42,7 +42,6 @@ func handleProducts(writer http.ResponseWriter, request *http.Request) {
 		writer.WriteHeader(http.StatusNotImplemented)
 		return
 	}
-
 }
 
 func handleProduct(writer http.ResponseWriter, request *http.Request) {
