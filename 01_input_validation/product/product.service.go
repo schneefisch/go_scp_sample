@@ -22,7 +22,7 @@ func HandleProducts(writer http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		parsedTemplate, err := template.ParseFiles("template/products.gohtml")
+		parsedTemplate, err := template.ParseFiles("products.gohtml")
 		if err != nil {
 			log.Println(err)
 			writer.WriteHeader(http.StatusInternalServerError)
@@ -41,7 +41,7 @@ func HandleProducts(writer http.ResponseWriter, request *http.Request) {
 
 func HandleProduct(writer http.ResponseWriter, request *http.Request) {
 
-	urlPathSegments := strings.Split(request.URL.Path, "product/")
+	urlPathSegments := strings.Split(request.URL.Path, "products/")
 	if len(urlPathSegments[1:]) > 1 {
 		writer.WriteHeader(http.StatusBadRequest)
 		return
