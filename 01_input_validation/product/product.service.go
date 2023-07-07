@@ -22,7 +22,7 @@ func HandleProducts(writer http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		parsedTemplate, err := template.ParseFiles("products.gohtml")
+		parsedTemplate, err := template.ParseFiles("tmpl/products.gohtml")
 		if err != nil {
 			log.Println(err)
 			writer.WriteHeader(http.StatusInternalServerError)
